@@ -1,0 +1,18 @@
+__pycache__/
+*.pyc
+
+scan_history.csv
+
+.venv/
+venv/
+env/
+
+*.log
+
+# Large datasets
+dataset/*.csv
+dataset/processed_data/*.csv
+
+# Old/unused models
+model/phishing_url_model.pkl
+model/url_phishing_model.pkl

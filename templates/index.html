@@ -1,0 +1,190 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Phishing URL Detection System</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+        <h1>Phishing URL Detection System</h1>
+        <p>Machine Learning Based URL Security Analysis</p>
+    </div>
+
+
+    <div class="search-box">
+
+        <form method="POST">
+
+            <label for="url">Enter URL to Analyze</label>
+
+            <div class="input-row">
+
+                <input
+                    type="text"
+                    id="url"
+                    name="url"
+                    placeholder="https://example.com"
+                    required
+                >
+
+                <button type="submit">
+                    Analyze URL
+                </button>
+
+            </div>
+
+        </form> 
+<div class="history-link">
+    <a href="/history">View Scan History</a>
+</div>
+
+<div class="history-link">
+    <a href="/dashboard">View Dashboard</a>
+</div>
+
+{% if result %}
+    <div class="new-analysis">
+        <a href="/">New Analysis</a>
+    </div>
+{% endif %}
+
+    </div>
+
+
+    {% if result %}
+
+        {% if result.error %}
+
+            <div class="error-box">
+                <strong>Invalid URL</strong>
+                <p>{{ result.error }}</p>
+            </div>
+
+        {% else %}
+
+            <div class="result-card">
+
+                <h2>Analysis Result</h2>
+
+                <div class="url-display">
+                    <span>Analyzed URL</span>
+                    <p>{{ result.url }}</p>
+                </div>
+
+
+                <div class="prediction-card
+                    {% if result.prediction == 'PHISHING' %}
+                        phishing
+                    {% else %}
+                        legitimate
+                    {% endif %}">
+
+                    <span class="prediction-label">
+                        Prediction
+                    </span>
+
+                    <div class="prediction">
+                        {{ result.prediction }}
+                    </div>
+
+                </div>
+
+
+                <div class="probability-section">
+
+                    <h3>Prediction Probability</h3>
+
+
+                    <div class="probability-label">
+                        <span>Phishing</span>
+                        <strong>
+                            {{ result.phishing_probability }}%
+                        </strong>
+                    </div>
+
+                    <div class="progress-bar">
+                        <div
+                            class="progress phishing-bar"
+                            style="width: {{ result.phishing_probability }}%;">
+                        </div>
+                    </div>
+
+
+                    <div class="probability-label">
+                        <span>Legitimate</span>
+                        <strong>
+                            {{ result.legitimate_probability }}%
+                        </strong>
+                    </div>
+
+                    <div class="progress-bar">
+                        <div
+                            class="progress legitimate-bar"
+                            style="width: {{ result.legitimate_probability }}%;">
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="characteristics">
+
+                    <h3>URL Characteristics</h3>
+
+                    {% if result.characteristics %}
+
+                        <ul>
+
+                            {% for characteristic in result.characteristics %}
+
+                                <li>
+                                    <span>!</span>
+                                    {{ characteristic }}
+                                </li>
+
+                            {% endfor %}
+
+                        </ul>
+
+                    {% else %}
+
+                        <div class="safe-message">
+                            No suspicious characteristics detected.
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        {% endif %}
+ <div class="new-analysis">
+          <a href="/download-report">
+              Download Scan Report
+          </a>
+      </div>
+
+    {% endif %}
+
+
+    <div class="footer">
+        <p>Phishing URL Detection System</p>
+        <p>Machine Learning Based Security Analysis</p>
+    </div>
+
+</div>
+
+</body>
+</html>
+```

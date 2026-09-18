@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Dashboard</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+        <h1>Security Dashboard</h1>
+        <p>Phishing URL Detection Statistics</p>
+    </div>
+
+    <div class="dashboard-cards">
+
+        <div class="dashboard-card">
+            <h3>Total Scans</h3>
+            <div class="dashboard-number">
+                {{ total_scans }}
+            </div>
+        </div>
+
+        <div class="dashboard-card">
+            <h3>Phishing URLs</h3>
+            <div class="dashboard-number">
+                {{ phishing_count }}
+            </div>
+        </div>
+
+        <div class="dashboard-card">
+            <h3>Legitimate URLs</h3>
+            <div class="dashboard-number">
+                {{ legitimate_count }}
+            </div>
+        </div>
+
+    </div>
+<div class="chart-section">
+
+    <h2>Scan Distribution</h2>
+
+    <div class="chart-item">
+      <div class="chart-label">
+    <span>Phishing URLs</span>
+    <strong>
+        {{ phishing_count }}
+        ({% if total_scans > 0 %}{{ ((phishing_count / total_scans) * 100)|round(1) }}{% else %}0{% endif %}%)
+    </strong>
+</div>  
+        <div class="chart-bar">
+            <div class="chart-fill phishing-fill"
+                 style="width: {% if total_scans > 0 %}{{ (phishing_count / total_scans) * 100 }}%{% else %}0%{% endif %};">
+            </div>
+        </div>
+    </div>
+
+    <div class="chart-item">
+<div class="chart-label">
+    <span>Legitimate URLs</span>
+    <strong>
+        {{ legitimate_count }}
+        ({% if total_scans > 0 %}{{ ((legitimate_count / total_scans) * 100)|round(1) }}{% else %}0{% endif %}%)
+    </strong>
+</div>
+                <div class="chart-bar">
+            <div class="chart-fill legitimate-fill"
+                 style="width: {% if total_scans > 0 %}{{ (legitimate_count / total_scans) * 100 }}%{% else %}0%{% endif %};">
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="chart-section">
+    <h2>Recent Scans</h2>
+
+    {% if recent_scans %}
+    <div class="history-table">
+        <table>
+            <thead>
+                <tr>
+                    <th>URL</th>
+                    <th>Prediction</th>
+                    <th>Phishing</th>
+                    <th>Legitimate</th>
+                    <th>Time</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for scan in recent_scans %}
+                <tr>
+                    <td>{{ scan.url }}</td>
+
+                    <td>
+                        <strong class="{% if scan.prediction == 'PHISHING' %}history-phishing{% else %}history-legitimate{% endif %}">
+                            {{ scan.prediction }}
+                        </strong>
+                    </td>
+
+                    <td>{{ scan.phishing_probability }}%</td>
+                    <td>{{ scan.legitimate_probability }}%</td>
+                    <td>{{ scan.time }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {% else %}
+    <div class="safe-message">
+        No recent scans available.
+    </div>
+    {% endif %}
+</div>
+    <div class="new-analysis">
+        <a href="/">Analyze New URL</a>
+    </div>
+
+    <div class="new-analysis">
+        <a href="/history">View Scan History</a>
+    </div>
+
+    <div class="footer">
+        <p>Phishing URL Detection System</p>
+        <p>Machine Learning Based Security Analysis</p>
+    </div>
+
+</div>
+
+</body>
+</html>

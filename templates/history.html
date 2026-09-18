@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Scan History</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+        <h1>Scan History</h1>
+        <p>Previously Analyzed URLs</p>
+    </div>
+
+    <div class="result-card">
+
+        {% if scan_history %}
+
+        <div class="history-table">
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>URL</th>
+                        <th>Prediction</th>
+                        <th>Phishing</th>
+                        <th>Legitimate</th>
+                        <th>Time</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    {% for scan in scan_history %}
+
+                    <tr>
+                        <td>{{ scan.url }}</td>
+
+                        <td>
+                            <strong
+                                class="{% if scan.prediction == 'PHISHING' %}history-phishing{% else %}history-legitimate{% endif %}">
+                                {{ scan.prediction }}
+                            </strong>
+                        </td>
+
+                        <td>{{ scan.phishing_probability }}%</td>
+
+                        <td>{{ scan.legitimate_probability }}%</td>
+
+                        <td>{{ scan.time }}</td>
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        {% else %}
+
+        <div class="safe-message">
+            No scan history available.
+        </div>
+
+        {% endif %}
+<div class="new-analysis">
+    <a href="/export-history">
+        Export Scan History
+    </a>
+</div>
+<div class="new-analysis">
+    <a href="/clear-history"
+       onclick="return confirm('Are you sure you want to clear all scan history?');">
+        Clear Scan History
+    </a>
+</div>
+        <div class="new-analysis">
+            <a href="/">Back to Analysis</a>
+        </div>
+
+    </div>
+
+    <div class="footer">
+        <p>Phishing URL Detection System</p>
+        <p>Machine Learning Based Security Analysis</p>
+    </div>
+
+</div>
+
+</body>
+</html>
