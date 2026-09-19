@@ -243,6 +243,27 @@ The project includes model evaluation and analysis reports such as:
 * Feature importance analysis
 
 These reports help evaluate the machine learning model and understand the contribution of URL characteristics to the classification process.
+## Application Screenshots
+
+### Main URL Analysis Interface
+
+![Main URL Analysis Interface](screenshots/homepage.png)
+
+### Phishing URL Detection
+
+![Phishing URL Detection](screenshots/phishing-result.png)
+
+### Legitimate URL Detection
+
+![Legitimate URL Detection](screenshots/legitimate-result.png)
+
+### Security Dashboard
+
+![Security Dashboard](screenshots/dashboard.png)
+
+### Scan History
+
+![Scan History](screenshots/scan-history.png)
 
 ## Future Enhancements
 
